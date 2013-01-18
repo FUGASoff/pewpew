@@ -26,6 +26,7 @@ namespace PEWPEW
         private void rb_CheckedChanged(object sender, EventArgs e)
         {
             IsShapeStart = true;
+            TempShape = null;
         }
         private void MainScreen_MouseMove(object sender, MouseEventArgs e)
         {
@@ -42,6 +43,13 @@ namespace PEWPEW
                 if (!IsShapeStart)
                 {
                     TempShape = new Circle(ShapeStart, e.Location);
+                }
+            }
+            else if (rb_Rect.Checked)
+            {
+                if (!IsShapeStart)
+                {
+                    TempShape = new Rect(ShapeStart, e.Location);
                 }
             }
             this.Refresh();
@@ -70,6 +78,12 @@ namespace PEWPEW
                 IsShapeStart = !IsShapeStart;
             }
             if (rb_circle.Checked)
+            {
+                if (IsShapeStart) ShapeStart = e.Location;
+                else AddShape(TempShape);
+                IsShapeStart = !IsShapeStart;
+            }
+            if (rb_Rect.Checked)
             {
                 if (IsShapeStart) ShapeStart = e.Location;
                 else AddShape(TempShape);
@@ -121,6 +135,11 @@ namespace PEWPEW
                         case "Circle":
                             {
                                 AddShape(new Circle(sr));
+                                break;
+                            }
+                        case "Rect":
+                            {
+                                AddShape(new Rect(sr));
                                 break;
                             }
                     }

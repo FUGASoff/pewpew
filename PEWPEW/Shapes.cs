@@ -126,8 +126,49 @@ namespace PEWPEW
          {
              get
              {
-                 return "Circle " + Convert.ToString(C) + " " + Convert.ToString(P);
+                 return "Circle " + Convert.ToString(C) + " " + Convert.ToString(r);
              }
          }
+    }
+    public class Rect : Shape
+    {
+        Point C, F;
+        Pen p = new Pen(Color.Black);
+        public Rect(Point _C, Point _F)
+        {
+            C = new Point(Math.Min (_C.X, _F.X), Math.Min (_C.Y, _F.Y));
+            F = new Point(Math.Max (_C.X, _F.X), Math.Max (_C.Y, _F.Y));
+        }
+        public override void DrawWith(Graphics g, Pen p)
+        {
+            g.DrawRectangle(p, C.X, C.Y, F.X - C.X, F.Y - C.Y);
+        }
+        public override void SaveTo(StreamWriter sw)
+        {
+            sw.WriteLine("Rect");
+            sw.Write(Convert.ToString(C.X));
+            sw.Write(' ');
+            sw.Write(Convert.ToString(C.Y));
+            sw.Write(' ');
+            sw.Write(Convert.ToString(F.X));
+            sw.Write(' ');
+            sw.WriteLine(Convert.ToString(F.Y));
+        }
+        public Rect(StreamReader _sr)
+        {
+            string line = _sr.ReadLine();
+            string[] str = line.Split(' ');
+            C.X = Convert.ToInt32(str[0]);
+            C.Y = Convert.ToInt32(str[1]);
+            F.X = Convert.ToInt32(str[2]);
+            F.Y = Convert.ToInt32(str[3]);
+        }
+        public override string ConfString
+        {
+            get
+            {
+                return "Rect " + Convert.ToString(C) + " : " + Convert.ToString(F);
+            }
+        }
     }
 }
